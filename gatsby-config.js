@@ -26,41 +26,14 @@ module.exports = {
       },
     },
     {
-      resolve: `gatsby-source-wordpress`,
+      resolve: `gatsby-plugin-netlify-cms`,
       options: {
-        url: process.env.WPGRAPHQL_URL,
-        verbose: true,
-        develop: {
-          hardCacheMediaFiles: true,
-        },
-        debug: {
-          graphql: {
-            writeQueriesToDisk: true,
-          },
-        },
-        html: {
-          fallbackImageMaxWidth: 800,
-        },
-        // fields can be excluded globally.
-        // this example is for wp-graphql-gutenberg.
-        // since we can get block data on the `block` field
-        // we don't need these fields
-        excludeFieldNames: [`blocksJSON`, `saveContent`],
-        type: {
-          Post: {
-            limit:
-              process.env.NODE_ENV === `development`
-                ? // Lets just pull 50 posts in development to make it easy on ourselves.
-                  35
-                : // And then we can pull all posts in production
-                  null,
-          },
-          // this shows how to exclude entire types from the schema
-          // this example is for wp-graphql-gutenberg
-          CoreParagraphBlockAttributesV2: {
-            exclude: true,
-          },
-        },
+        manualInit: true,
+        /**
+         * One convention is to place your Netlify CMS customization code in a
+         * `src/cms` directory.
+         */
+        modulePath: `${__dirname}/src/cms/cms.js`,
       },
     },
     `gatsby-transformer-sharp`,
